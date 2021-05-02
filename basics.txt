@@ -1,0 +1,74 @@
+{Spell} = [Property::](effect)
+
+-------------------------------------------------------------------------------
+# By default all values are set on 0, null, None, "", any other zero-like suitable forms
+-------------------------------------------------------------------------------
+
+[Property::] =
+	[Basis::]
+	[Statistics::]
+	[Effects::]
+
+[Basis::] = # everything, that is connected with particular 'spell projectile' (orb / arrow / etc. that is going be created on cast)
+	[parent_spell]
+
+	[Material]
+	[form] # can be used to modifie pattern
+
+	[mass]
+	[velocity]
+	[acceleration]
+	(pattern) # calculates the position of the spell in next tick
+
+	[is_bouncing]
+	[is_homing]      ## should it be grouped as '[magic basis::]'?
+	[is_penetrating]
+
+[Statistics::] = # info about the current projectile life, valid only AFTER the cast, recalcs every tick if needed
+	[cast_time]
+	[cast_pos]
+	[caster]
+	[target] # if there is such, else None
+	[distance_traveled]
+
+[Effects::] =
+	(on_cast)
+	(on_tick)
+	(on_time) # for effects that are triggered every N seconds
+	(on_term) # end of spell
+
+-------------------------------------------------------------------------------
+
+# Examples of some things
+
+[Material]:
+	[wind]
+	[fire]
+	[water]
+	[earth]
+	[acid]
+	[energy]
+	[blood]
+	[ice]
+	[juice] # something orange
+
+[Form]:
+	[arrow]
+	[orb]
+	[rock]
+	[stream]
+	[lazer]
+	[wall]
+	[tornado]
+	[skyfall] # for lightnings and meteors
+
+(Effect):
+	(spawn)    # for spawning mobs
+	(create)   # for chain spell-casts
+	(explode)  # boom
+	(set_on)   # set on fire, make wet, make frozen. has exponential scale. also usable for slowing and other efects
+	(push)     # just bump and give some velocity
+	(teleport) # teleports target/caster somewhere
+	(drain)    # caster gets something from target
+	(world_change) # change rules of the world somehow
+
